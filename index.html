@@ -395,8 +395,10 @@
    .hv-logo { font-size: 22px; }
    .hv-burger { width: 48px; height: 48px; }
    .hv-burger span { width: 24px; }
-   .hv-menu-overlay { padding: 18px; }
-   .hv-menu-row { padding: 22px 0; gap: 14px; grid-template-columns: 52px 1fr auto; }
+   .hv-menu-overlay { padding: 14px 18px; }
+   .hv-menu-row { padding: 12px 0; gap: 12px; grid-template-columns: 40px 1fr auto; }
+   .hv-menu-num { font-size: 22px; }
+   .hv-menu-label { font-size: clamp(22px, 7vw, 36px); }
    .hv-menu-num { font-size: 36px; }
    .hv-menu-label { font-size: clamp(28px, 9vw, 56px); }
  }
@@ -752,6 +754,40 @@
  .teams-v2 .team-card-arrow { font-family: 'Krona One', sans-serif; font-size: 20px; transition: transform .2s; }
  .teams-v2 .team-card:hover .team-card-arrow { transform: translateX(6px); }
  .teams-v2 .teams-empty { padding: 96px 28px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bg-0); }
+
+ /* GROUP STANDINGS — table-based */
+ .teams-v2 .teams-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; padding: var(--sp-section-top) var(--sp-gutter) var(--sp-section-bottom); }
+ .teams-v2 .teams-group { border: 1.5px solid var(--bg-0); background: var(--text-0); padding: 0; }
+ .teams-v2 .teams-group-head { display: flex; justify-content: space-between; align-items: baseline; padding: 18px 20px; border-bottom: 1.5px solid var(--bg-0); }
+ .teams-v2 .teams-group-title { font-family: 'Krona One', sans-serif; font-size: 32px; letter-spacing: -0.05em; color: var(--accent); line-height: 1; }
+ .teams-v2 .teams-group-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bg-0); opacity: 0.6; }
+ .teams-v2 .teams-group-table-wrap { overflow-x: auto; }
+ .teams-v2 .teams-group-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; }
+ .teams-v2 .teams-group-table thead th { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 12px 6px; color: var(--bg-0); opacity: 0.55; border-bottom: 1px solid rgba(255,255,255,0.18); text-align: center; }
+ .teams-v2 .teams-group-table thead .th-team { text-align: left; padding-left: 14px; }
+ .teams-v2 .teams-group-table thead .th-pos { width: 32px; padding-left: 12px; text-align: left; }
+ .teams-v2 .teams-group-table thead .th-pts { color: var(--accent); opacity: 1; }
+ .teams-v2 .teams-group-row { cursor: pointer; transition: background .15s, color .15s; }
+ .teams-v2 .teams-group-row:hover { background: var(--accent); color: var(--text-0); }
+ .teams-v2 .teams-group-row:hover * { color: var(--text-0) !important; opacity: 1 !important; }
+ .teams-v2 .teams-group-row td { padding: 14px 6px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: center; font-size: 12px; }
+ .teams-v2 .teams-group-row:last-child td { border-bottom: none; }
+ .teams-v2 .teams-group-row .td-pos { font-family: 'Krona One', sans-serif; font-size: 18px; letter-spacing: -0.03em; padding-left: 12px; color: var(--bg-0); text-align: left; width: 32px; }
+ .teams-v2 .teams-group-row .td-team { display: flex; align-items: center; gap: 12px; padding-left: 14px; text-align: left; font-family: 'Krona One', sans-serif; font-size: 14px; letter-spacing: -0.03em; }
+ .teams-v2 .teams-group-row .td-team-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .teams-v2 .teams-group-row .td-stat { font-size: 13px; color: var(--bg-0); opacity: 0.85; }
+ .teams-v2 .teams-group-row .td-pts { font-family: 'Krona One', sans-serif; font-size: 18px; letter-spacing: -0.03em; color: var(--accent); padding-right: 12px; }
+
+ @media (max-width: 1024px) { .teams-v2 .teams-groups { grid-template-columns: 1fr; } }
+ @media (max-width: 768px) {
+   .teams-v2 .teams-groups { padding: var(--sp-section-top-sm) var(--sp-gutter-sm) var(--sp-section-bottom-sm); gap: 24px; }
+   .teams-v2 .teams-group-head { padding: 14px 16px; }
+   .teams-v2 .teams-group-title { font-size: 24px; }
+   .teams-v2 .teams-group-row .td-pos { font-size: 15px; }
+   .teams-v2 .teams-group-row .td-team { font-size: 12px; gap: 8px; padding-left: 10px; }
+   .teams-v2 .teams-group-row .td-pts { font-size: 16px; padding-right: 10px; }
+   .teams-v2 .teams-group-row td { padding: 10px 4px; font-size: 11px; }
+ }
 
  /* REVEAL ANIMATIONS */
  .teams-v2 .reveal-up { opacity: 0; transform: translateY(40px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1); }
@@ -4082,9 +4118,8 @@ function Header({ view, setView }) {
    </div>
 
    <div className={`hv-menu-overlay ${menuOpen ? 'is-open' : ''}`}>
-     <div style={{height:'80px'}}></div>
-     <div style={{display:'grid',alignContent:'center',padding:'32px 0'}}>
-       <div style={{color:'var(--hv-lime)',fontFamily:"'JetBrains Mono',monospace",fontSize:'11px',fontWeight:600,letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'24px'}}>CHAPTERS</div>
+     <div style={{height:'72px'}}></div>
+     <div style={{display:'grid',alignContent:'center',padding:'12px 0'}}>
        {[
          {n:'00', l:'HOME',     go:'home'},
          {n:'01', l:'NEWS',     go:'news'},
@@ -4100,9 +4135,9 @@ function Header({ view, setView }) {
          </div>
        ))}
      </div>
-     <div style={{display:'flex',justifyContent:'space-between',fontFamily:"'JetBrains Mono',monospace",fontSize:'11px',fontWeight:600,letterSpacing:'0.14em',textTransform:'uppercase'}}>
-       <span style={{color:'var(--hv-lime)'}}>WC26 · WORLD CUP</span>
-       <span style={{color:'var(--hv-lime)'}}>2026</span>
+     <div style={{display:'flex',justifyContent:'space-between',fontFamily:"'JetBrains Mono',monospace",fontSize:'10px',fontWeight:600,letterSpacing:'0.14em',textTransform:'uppercase',opacity:0.6,color:'var(--hv-paper)'}}>
+       <span>WC26 · WORLD CUP</span>
+       <span>2026</span>
      </div>
    </div>
  </Fragment>
@@ -4625,45 +4660,56 @@ function TeamsListView({ setView, query }) {
      </div>
    </div>
 
-   {/* FILTER */}
-   <div className="teams-filter reveal-up">
-     <div className="teams-filter-group">
-       <label>CONF</label>
-       {['ALL', ...CONFEDERATIONS].map(c => (
-         <button key={c} onClick={() => setFilter(c)} className={'teams-filter-btn' + (filter === c ? ' is-active' : '')}>{c}</button>
-       ))}
-     </div>
-     <div className="teams-filter-group">
-       <label>SORT</label>
-       <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-         <option value="rank">FIFA RANK</option>
-         <option value="name">NAME</option>
-         <option value="group">GROUP</option>
-       </select>
-     </div>
+   {/* GROUP STANDINGS — one section per group A..L */}
+   <div className="teams-groups">
+     {GROUPS.map(g => {
+       const grpTeams = TEAMS.filter(t => t.group === g).sort((a,b) => a.pos.localeCompare(b.pos));
+       const q = (query || '').trim().toLowerCase();
+       const matchedQ = q ? grpTeams.some(t => t.name.toLowerCase().includes(q) || t.nickname.toLowerCase().includes(q)) : true;
+       if (!matchedQ) return null;
+       return (
+         <section key={g} className="teams-group reveal-up">
+           <div className="teams-group-head">
+             <div className="teams-group-title">GROUP {g}</div>
+             <div className="teams-group-meta">4 TEAMS · 6 MATCHES</div>
+           </div>
+           <div className="teams-group-table-wrap">
+             <table className="teams-group-table">
+               <thead>
+                 <tr>
+                   <th className="th-pos">#</th>
+                   <th className="th-team">TEAM</th>
+                   <th className="th-stat">P</th>
+                   <th className="th-stat">W</th>
+                   <th className="th-stat">D</th>
+                   <th className="th-stat">L</th>
+                   <th className="th-stat">GD</th>
+                   <th className="th-pts">PTS</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {grpTeams.map((t, i) => (
+                   <tr key={t.code} onClick={() => setView({ name: 'team', code: t.code })} className="teams-group-row">
+                     <td className="td-pos">{i + 1}</td>
+                     <td className="td-team">
+                       <FlagCircle team={t} size={28}/>
+                       <span className="td-team-name">{t.name.toUpperCase()}</span>
+                     </td>
+                     <td className="td-stat">0</td>
+                     <td className="td-stat">0</td>
+                     <td className="td-stat">0</td>
+                     <td className="td-stat">0</td>
+                     <td className="td-stat">0</td>
+                     <td className="td-pts">0</td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+           </div>
+         </section>
+       );
+     })}
    </div>
-
-   {/* GRID */}
-   <div className="teams-grid">
-     {list.map((t, idx) => (
-       <button key={t.code} onClick={() => setView({ name: 'team', code: t.code })} className={'team-card reveal-up' + (idx % 3 === 1 ? ' stagger-1' : idx % 3 === 2 ? ' stagger-2' : '')}>
-         <div className="team-card-top">
-           <FlagCircle team={t} size={56}/>
-           <div className="team-card-rank">#{String(t.rank).padStart(2,'0')}</div>
-         </div>
-         <div className="team-card-name">{t.name.toUpperCase()}</div>
-         <div className="team-card-nick">{t.nickname}</div>
-         <div className="team-card-meta">
-           <span>{t.conf} · GR {t.group}</span>
-           <span className="team-card-arrow">→</span>
-         </div>
-       </button>
-     ))}
-   </div>
-
-   {list.length === 0 && (
-     <div className="teams-empty">No teams match your search.</div>
-   )}
  </div>
  );
 }
@@ -7204,7 +7250,7 @@ function CompareModal({ playerA, playerB, teamA, teamB, onClose }) {
  </div>
  <div className="min-w-0 flex-1">
  <div className="flex items-center gap-2 flex-wrap">
- <span className="text-xl">{t.flag}</span>
+ <FlagCircle team={t} size={20}/>
  <span className="text-sm text-[var(--text-2)]">{t.name}</span>
  </div>
  <div className="font-display text-2xl leading-tight truncate uppercase">{p.name}</div>
@@ -7405,7 +7451,7 @@ function TeamCompareModal({ teamA, teamB, match, onClose, setView }) {
  {/* Team A */}
  <button onClick={() => { onClose(); setView({ name: 'team', code: teamA.code }); }} className="text-left hover:opacity-80 transition-opacity">
  <div className="flex items-center gap-3">
- <span className="text-5xl">{teamA.flag}</span>
+ <FlagCircle team={teamA} size={56}/>
  <div className="min-w-0">
  <div className="font-display text-2xl truncate">{teamA.name}</div>
  <div className="text-[10px] uppercase tracking-wider text-[var(--text-2)]">{teamA.nickname} · #{teamA.rank}</div>
@@ -7424,7 +7470,7 @@ function TeamCompareModal({ teamA, teamB, match, onClose, setView }) {
  <div className="font-display text-2xl truncate">{teamB.name}</div>
  <div className="text-[10px] uppercase tracking-wider text-[var(--text-2)]">{teamB.nickname} · #{teamB.rank}</div>
  </div>
- <span className="text-5xl">{teamB.flag}</span>
+ <FlagCircle team={teamB} size={56}/>
  </div>
  </button>
  </div>
@@ -8795,7 +8841,7 @@ function MatchDetailBody({ match, onClose, setView, stageColor }) {
  <div className="flex items-center justify-between gap-2 sm:gap-3 mb-3">
  {teamA ? (
  <button onClick={() => setView({ name: 'team', code: teamA.code })} className="flex-1 flex flex-col items-center gap-2 group">
- <span className="text-5xl group-hover:scale-110 transition-transform inline-block">{teamA.flag}</span>
+ <div className="group-hover:scale-110 transition-transform inline-block"><FlagCircle team={teamA} size={48}/></div>
  <span className="font-display text-base sm:text-lg text-[var(--text-0)] transition-colors text-center leading-tight">{teamA.name.toUpperCase()}</span>
  <span className="font-mono text-[9px] uppercase tracking-wider text-[var(--text-2)]">#{teamA.rank} · {teamA.conf}</span>
  </button>
@@ -8805,7 +8851,7 @@ function MatchDetailBody({ match, onClose, setView, stageColor }) {
  <div className="text-2xl text-[var(--text-2)] px-1" style={{fontFamily:"'Krona One',sans-serif", letterSpacing:'-0.04em'}}>VS</div>
  {teamB ? (
  <button onClick={() => setView({ name: 'team', code: teamB.code })} className="flex-1 flex flex-col items-center gap-2 group">
- <span className="text-5xl group-hover:scale-110 transition-transform inline-block">{teamB.flag}</span>
+ <div className="group-hover:scale-110 transition-transform inline-block"><FlagCircle team={teamB} size={48}/></div>
  <span className="font-display text-base sm:text-lg text-[var(--text-0)] transition-colors text-center leading-tight">{teamB.name.toUpperCase()}</span>
  <span className="font-mono text-[9px] uppercase tracking-wider text-[var(--text-2)]">#{teamB.rank} · {teamB.conf}</span>
  </button>
