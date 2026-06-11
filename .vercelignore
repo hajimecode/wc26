@@ -1,0 +1,7 @@
+mockup-home.html
+.DS_Store
+.git
+node_modules
+images/manifest.json
+images/*.png
+images/original-png
