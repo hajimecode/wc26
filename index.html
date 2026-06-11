@@ -313,6 +313,11 @@
  .home-v2 .hv-hero-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.78; filter: contrast(1.05) brightness(0.85); }
  .home-v2 .hv-hero-grid { position: relative; z-index: 2; padding: var(--sp-nav-clearance) var(--sp-gutter) 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
  .home-v2 .hv-hero-title { font-size: clamp(110px, 22vw, 320px); color: var(--hv-lime); position: relative; z-index: 3; pointer-events: none; }
+ /* Hero overlay text — desktop absolute positions, mobile flow */
+ .home-v2 .hv-hero-tag-tl { position: absolute; top: 110px; left: 28px; z-index: 4; }
+ .home-v2 .hv-hero-tag-tr { position: absolute; top: 110px; right: 28px; z-index: 4; text-align: right; }
+ .home-v2 .hv-hero-leap { position: absolute; bottom: 220px; left: 28px; max-width: 280px; z-index: 4; color: var(--hv-paper); }
+ .home-v2 .hv-hero-kickoff { position: absolute; bottom: 80px; left: 28px; z-index: 4; }
 
  .home-v2 .hv-kolonial { background: var(--hv-ink); color: var(--hv-paper); padding: 0; overflow: hidden; position: relative; min-height: 100vh; display: grid; place-items: center; }
  .home-v2 .hv-kolonial-img { position: absolute; inset: 0; }
@@ -426,6 +431,16 @@
    .home-v2 .hv-nav-sections .hv-num { font-size: 42px; }
    .home-v2 .hv-nav-sections .hv-label { font-size: clamp(28px, 8vw, 52px); }
    .home-v2 .hv-band-item { font-size: 28px; padding: 0 20px; gap: 20px; }
+ }
+ /* Mobile hero — clean stack, no overlap */
+ @media (max-width: 768px) {
+   .home-v2 .hv-hero { position: relative; min-height: 100vh; }
+   .home-v2 .hv-hero-tag-tl { top: 76px; left: var(--sp-gutter-sm); right: auto; font-size: 10px; }
+   .home-v2 .hv-hero-tag-tr { display: none; }
+   .home-v2 .hv-hero-leap { position: absolute; bottom: auto; top: 130px; left: var(--sp-gutter-sm); right: var(--sp-gutter-sm); max-width: none; font-size: 11px; }
+   .home-v2 .hv-hero-kickoff { bottom: 24px; left: var(--sp-gutter-sm); right: var(--sp-gutter-sm); }
+   .home-v2 .hv-hero-grid { padding-top: 50vh; padding-bottom: 96px; }
+   .home-v2 .hv-hero-grid > div:nth-child(2) { text-align: left !important; }
  }
  @media (max-width: 480px) {
    .home-v2 .hv-hero-title { font-size: clamp(60px, 17vw, 100px); }
@@ -4192,15 +4207,15 @@ function HomeView({ setView, news }) {
        <img src="images/shaganshi_football_soccer_modern_cutting_edge_campaign_Leica__0382aecb-4e56-4686-9993-5c0f3f804241_0.webp" alt=""/>
      </div>
 
-     <div style={{position:'absolute',top:'110px',left:'28px',zIndex:4}} className="hv-mono hv-reveal-left hv-stagger-1">
+     <div className="hv-hero-tag-tl hv-mono hv-reveal-left hv-stagger-1">
        <div>ESCAPE GROUP F</div>
        <div>COLLECTION / 2026</div>
      </div>
-     <div style={{position:'absolute',top:'110px',right:'28px',zIndex:4,textAlign:'right'}} className="hv-mono hv-reveal-right hv-stagger-1">
+     <div className="hv-hero-tag-tr hv-mono hv-reveal-right hv-stagger-1">
        <div>48 NATIONS · 104 MATCHES</div>
        <div>16 CITIES · 3 COUNTRIES</div>
      </div>
-     <div style={{position:'absolute',bottom:'220px',left:'28px',maxWidth:'280px',zIndex:4,color:'var(--hv-paper)'}} className="hv-mono-sm hv-reveal-up hv-stagger-2">
+     <div className="hv-hero-leap hv-mono-sm hv-reveal-up hv-stagger-2">
        EVERY KICK NOT TAKEN<br/>IS POTENTIAL WASTED.<br/>TAKE THE LEAP.<br/>THIS IS WHAT YOU<br/>TRAINED FOR.
      </div>
 
@@ -4211,7 +4226,7 @@ function HomeView({ setView, news }) {
        </div>
      </div>
 
-     <div style={{position:'absolute',bottom:'80px',left:'28px',zIndex:4}} className="hv-reveal-up hv-stagger-3">
+     <div className="hv-hero-kickoff hv-reveal-up hv-stagger-3">
        <div className="hv-mono-sm" style={{color:'var(--hv-paper)'}}>
          <div style={{color:'var(--hv-lime)',marginBottom:'4px'}}>WC26 / KICKOFF</div>
          <div>NEW YORK · NEW JERSEY</div>
@@ -4569,7 +4584,7 @@ function TeamsListView({ setView, query }) {
      <div className="teams-hero-inner">
        <div className="teams-hero-top">
          <div className="reveal-left">
-           <div className="teams-hero-tag">§03 · NATIONS / {TEAMS.length} TEAMS</div>
+           <div className="teams-hero-tag">§04 · NATIONS / {TEAMS.length} TEAMS</div>
            <div className="teams-hero-title">NAT<br/>IONS.</div>
          </div>
          <div className="teams-hero-meta reveal-right">
@@ -4686,7 +4701,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
        <div>
          <button onClick={() => setView({ name: 'teams' })} className="team-back reveal-left">← ALL NATIONS</button>
          <div className="team-hero-tags reveal-up">
-           <span className="team-hero-tag">§03 · NATIONS</span>
+           <span className="team-hero-tag">§04 · NATIONS</span>
            <span className="team-hero-tag">{team.conf}</span>
            <span className="team-hero-tag">GROUP {team.group} · {team.pos}</span>
            <span className="team-hero-tag">RANK #{team.rank}</span>
@@ -4733,7 +4748,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
      <div className="team-body-shell">
        {/* Section opener — giant LIME tab label */}
        <div className="team-tab-opener" key={tab}>
-         <div className="team-tab-opener-tag">§ {tab === 'overview' ? '03.01' : tab === 'tactics' ? '03.02' : '03.03'} · {team.code}</div>
+         <div className="team-tab-opener-tag">§ {tab === 'overview' ? '04.01' : tab === 'tactics' ? '04.02' : '04.03'} · {team.code}</div>
          <div className="team-tab-opener-title">{tab === 'overview' ? 'OVERVIEW' : tab === 'tactics' ? 'TACTICS' : 'SQUAD'}.</div>
          <div className="team-tab-opener-meta">
            {tab === 'overview' && 'STYLE · STRENGTHS · WEAKNESSES · KEY PLAYERS'}
@@ -7554,7 +7569,7 @@ function PredictionView({ setSelectedPlayer, initialCodeA, initialCodeB }) {
      <div className="predict-hero-inner">
        <div className="predict-hero-top">
          <div className="reveal-left">
-           <div className="predict-hero-tag">§04 · MODEL · 90-MIN POISSON</div>
+           <div className="predict-hero-tag">§03 · MODEL · 90-MIN POISSON</div>
            <div className="predict-hero-title">PRE<br/>DICT.</div>
          </div>
          <div className="predict-hero-meta reveal-right">
@@ -9312,7 +9327,7 @@ function NewsListView({ articles, cats, setView, loading, error }) {
      <div className="news-hero-inner">
        <div className="news-hero-top">
          <div className="reveal-left">
-           <div className="news-hero-tag">§05 · WIRE / {allCount} ENTRIES</div>
+           <div className="news-hero-tag">§01 · WIRE / {allCount} ENTRIES</div>
            <div className="news-hero-title">NEWS<br/>WIRE.</div>
          </div>
          <div className="news-hero-meta reveal-right">
@@ -9430,7 +9445,7 @@ function NewsArticleView({ articles, cats, setView, slug }) {
      <div className="related-wrap">
        <div className="related-head">
          <div className="related-title">MORE<br/>{(cat && cat.label) ? cat.label.toUpperCase() : 'STORIES'}</div>
-         <span className="news-hero-tag">RELATED / §05</span>
+         <span className="news-hero-tag">RELATED / §01</span>
        </div>
        <div className="news-list" style={{padding:0}}>
          {related.map((a, i) => (
