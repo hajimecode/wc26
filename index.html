@@ -1212,6 +1212,15 @@
    .news-v2 .article-h1 { font-size: clamp(40px, 11vw, 72px); }
    .news-v2 .related-wrap { padding: var(--sp-section-top-sm) var(--sp-gutter-sm) var(--sp-section-bottom-sm); }
  }
+ /* GLOBAL — hide all marquee bands on mobile to prevent navbar-adjacent LIME clutter + overflow */
+ @media (max-width: 768px) {
+   .news-v2 .news-band,
+   .sched-v2 .sched-band,
+   .teams-v2 .teams-band,
+   .team-v2 .team-band,
+   .predict-v2 .predict-band,
+   .analysis-v2 .analysis-band { display: none; }
+ }
 </style>
 <script>
   // FOUC guard: paint INK before React mounts (v2.5 — all pages are INK base)
@@ -4273,9 +4282,8 @@ function HomeView({ setView, news }) {
        </div>
      </div>
 
-     <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'28px',display:'flex',justifyContent:'space-between',zIndex:4}} className="hv-mono">
+     <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'28px',display:'flex',justifyContent:'flex-start',zIndex:4}} className="hv-mono">
        <span style={{color:'var(--hv-paper)'}}>SCROLL ↓</span>
-       <span style={{color:'var(--hv-lime)'}}>01 / 07</span>
      </div>
    </section>
 
@@ -4297,7 +4305,7 @@ function HomeView({ setView, news }) {
      </div>
 
      <div style={{position:'absolute',top:'56px',left:'56px',zIndex:4,color:'var(--hv-lime)'}} className="hv-mono hv-reveal-left">
-       <div>BY THE NUMBERS / §02</div>
+       <div>BY THE NUMBERS</div>
        <div style={{marginTop:'8px'}}>2026 vs 2022 EXPANSION</div>
      </div>
      <div style={{position:'absolute',top:'56px',right:'56px',zIndex:4,color:'var(--hv-lime)',textAlign:'right'}} className="hv-mono hv-reveal-right">
@@ -4325,7 +4333,6 @@ function HomeView({ setView, news }) {
 
      <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'28px',display:'flex',justifyContent:'space-between',zIndex:4}} className="hv-mono">
        <span style={{color:'var(--hv-lime)'}}>EXPANSION ↑</span>
-       <span style={{color:'var(--hv-lime)'}}>02 / 07</span>
      </div>
    </section>
 
@@ -4361,8 +4368,7 @@ function HomeView({ setView, news }) {
        </div>
 
        <div style={{display:'flex',justifyContent:'space-between'}} className="hv-mono">
-         <span>HOSTS · §03</span>
-         <span>03 / 07</span>
+         <span>HOSTS</span>
        </div>
      </div>
    </section>
@@ -4371,7 +4377,7 @@ function HomeView({ setView, news }) {
    <section className="hv-fixtures">
      <div style={{display:'grid',gridTemplateColumns:'auto 1fr',gap:'56px',alignItems:'end',marginBottom:'72px'}}>
        <div>
-         <div className="hv-mono">UP NEXT / §04</div>
+         <div className="hv-mono">UP NEXT</div>
          <div className="krona hv-fixtures-h hv-reveal-up" style={{marginTop:'18px'}}>FIXT<br/>URES.</div>
        </div>
        <div style={{textAlign:'right',alignSelf:'end'}} className="hv-mono">
@@ -4406,7 +4412,6 @@ function HomeView({ setView, news }) {
 
      <div style={{display:'flex',justifyContent:'space-between',marginTop:'56px',cursor:'pointer'}} className="hv-mono" onClick={() => setView({ name: 'schedule' })}>
        <span>FULL SCHEDULE · 104 MATCHES →</span>
-       <span>04 / 07</span>
      </div>
    </section>
 
@@ -4422,7 +4427,7 @@ function HomeView({ setView, news }) {
 
      <div className="hv-split-lime hv-reveal-right" style={{padding:'60px 56px'}}>
        <div>
-         <div className="hv-mono">MODEL / §05</div>
+         <div className="hv-mono">MODEL</div>
          <div className="krona hv-split-lime-title" style={{marginTop:'28px'}}>
            PRE<br/>DICT.<br/><span style={{color:'var(--hv-ink)',position:'relative'}}>'26®</span>
          </div>
@@ -4439,7 +4444,6 @@ function HomeView({ setView, news }) {
 
        <div style={{display:'flex',justifyContent:'space-between'}} className="hv-mono">
          <span>MATCH PREDICTOR</span>
-         <span>05 / 07</span>
        </div>
      </div>
    </section>
@@ -4452,7 +4456,7 @@ function HomeView({ setView, news }) {
        </div>
 
        <div className="hv-reveal-right">
-         <div className="hv-mono">TODAYS BRIEFING / §06</div>
+         <div className="hv-mono">TODAYS BRIEFING</div>
          <div className="krona hv-briefing-h">{(latestArticle.title || 'THE LATEST').toUpperCase().split(' ').slice(0,4).join(' ')}</div>
          <p style={{fontFamily:"'Inter', sans-serif",fontSize:'17px',lineHeight:1.65,maxWidth:'480px',marginBottom:'28px'}}>{latestArticle.tldr}</p>
          <div style={{display:'flex',gap:'24px',alignItems:'center'}}>
@@ -4462,7 +4466,6 @@ function HomeView({ setView, news }) {
 
          <div style={{display:'flex',justifyContent:'space-between',marginTop:'56px',cursor:'pointer'}} className="hv-mono" onClick={() => setView({ name: 'news' })}>
            <span>ALL BRIEFINGS →</span>
-           <span>06 / 07</span>
          </div>
        </div>
      </section>
@@ -4483,7 +4486,7 @@ function HomeView({ setView, news }) {
    <section className="hv-nav-sections">
      <div style={{display:'grid',gridTemplateColumns:'auto 1fr',gap:'56px',alignItems:'end',marginBottom:'48px'}}>
        <div>
-         <div className="hv-mono" style={{color:'var(--hv-lime)'}}>CHAPTERS / §07</div>
+         <div className="hv-mono" style={{color:'var(--hv-lime)'}}>CHAPTERS</div>
          <div className="krona hv-reveal-up" style={{fontSize:'clamp(80px, 12vw, 180px)',marginTop:'18px'}}>EXPL<br/>ORE.</div>
        </div>
        <div style={{textAlign:'right',alignSelf:'end'}} className="hv-mono">FOUR PILLARS · ONE TOURNAMENT</div>
@@ -4505,7 +4508,6 @@ function HomeView({ setView, news }) {
 
      <div style={{display:'flex',justifyContent:'space-between',marginTop:'72px'}} className="hv-mono">
        <span style={{color:'var(--hv-lime)'}}>WC26 · WORLD CUP · 2026</span>
-       <span style={{color:'var(--hv-lime)'}}>07 / 07</span>
      </div>
    </section>
 
@@ -4623,7 +4625,7 @@ function TeamsListView({ setView, query }) {
      <div className="teams-hero-inner">
        <div className="teams-hero-top">
          <div className="reveal-left">
-           <div className="teams-hero-tag">§03 · NATIONS / {TEAMS.length} TEAMS</div>
+           <div className="teams-hero-tag">NATIONS / {TEAMS.length} TEAMS</div>
            <div className="teams-hero-title">NAT<br/>IONS.</div>
          </div>
          <div className="teams-hero-meta reveal-right">
@@ -4751,7 +4753,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
        <div>
          <button onClick={() => setView({ name: 'teams' })} className="team-back reveal-left">← ALL NATIONS</button>
          <div className="team-hero-tags reveal-up">
-           <span className="team-hero-tag">§03 · NATIONS</span>
+           <span className="team-hero-tag">NATIONS</span>
            <span className="team-hero-tag">{team.conf}</span>
            <span className="team-hero-tag">GROUP {team.group} · {team.pos}</span>
            <span className="team-hero-tag">RANK #{team.rank}</span>
@@ -4798,7 +4800,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
      <div className="team-body-shell">
        {/* Section opener — giant LIME tab label */}
        <div className="team-tab-opener" key={tab}>
-         <div className="team-tab-opener-tag">§ {tab === 'overview' ? '03.01' : tab === 'tactics' ? '03.02' : '03.03'} · {team.code}</div>
+         <div className="team-tab-opener-tag">{team.code} · {tab === 'overview' ? 'PROFILE' : tab === 'tactics' ? 'TACTICAL' : 'ROSTER'}</div>
          <div className="team-tab-opener-title">{tab === 'overview' ? 'OVERVIEW' : tab === 'tactics' ? 'TACTICS' : 'SQUAD'}.</div>
          <div className="team-tab-opener-meta">
            {tab === 'overview' && 'STYLE · STRENGTHS · WEAKNESSES · KEY PLAYERS'}
@@ -7619,7 +7621,7 @@ function PredictionView({ setSelectedPlayer, initialCodeA, initialCodeB }) {
      <div className="predict-hero-inner">
        <div className="predict-hero-top">
          <div className="reveal-left">
-           <div className="predict-hero-tag">§04 · MODEL · 90-MIN POISSON</div>
+           <div className="predict-hero-tag">MODEL · 90-MIN POISSON</div>
            <div className="predict-hero-title">PRE<br/>DICT.</div>
          </div>
          <div className="predict-hero-meta reveal-right">
@@ -8478,7 +8480,7 @@ function AnalysisBoardView({ setSelectedPlayer }) {
      <div className="analysis-hero-inner">
        <div className="analysis-hero-top">
          <div className="reveal-left">
-           <div className="analysis-hero-tag">§05 · BOARD / FREE PLACEMENT</div>
+           <div className="analysis-hero-tag">BOARD / FREE PLACEMENT</div>
            <div className="analysis-hero-title">ANA<br/>LYSIS.</div>
          </div>
          <div className="analysis-hero-meta reveal-right">
@@ -9006,7 +9008,7 @@ function ScheduleView({ setView, onCompareTeams }) {
      <div className="sched-hero-inner">
        <div className="sched-hero-top">
          <div className="reveal-left">
-           <div className="sched-hero-tag">§02 · FIXTURES</div>
+           <div className="sched-hero-tag">FIXTURES</div>
            <div className="sched-hero-title">SCHED<br/>ULE.</div>
          </div>
          <div className="sched-hero-meta reveal-right">
@@ -9037,7 +9039,7 @@ function ScheduleView({ setView, onCompareTeams }) {
    <section className="sched-giant">
      <div className="sched-giant-num reveal-up">104</div>
      <div className="sched-giant-info reveal-up stagger-1">
-       <div className="lab">§02 · TOTAL MATCHES</div>
+       <div className="lab">TOTAL MATCHES</div>
        <div className="big">FROM GROUP<br/>STAGE TO<br/>THE FINAL.</div>
        <div className="lab" style={{opacity:0.6}}>72 GROUP · 16 R32 · 8 R16 · 4 QF · 2 SF · 1 3RD · 1 FINAL</div>
      </div>
@@ -9371,7 +9373,7 @@ function NewsListView({ articles, cats, setView, loading, error }) {
      <div className="news-hero-inner">
        <div className="news-hero-top">
          <div className="reveal-left">
-           <div className="news-hero-tag">§01 · WIRE / {allCount} ENTRIES</div>
+           <div className="news-hero-tag">WIRE / {allCount} ENTRIES</div>
            <div className="news-hero-title">NEWS<br/>WIRE.</div>
          </div>
          <div className="news-hero-meta reveal-right">
@@ -9489,7 +9491,7 @@ function NewsArticleView({ articles, cats, setView, slug }) {
      <div className="related-wrap">
        <div className="related-head">
          <div className="related-title">MORE<br/>{(cat && cat.label) ? cat.label.toUpperCase() : 'STORIES'}</div>
-         <span className="news-hero-tag">RELATED / §01</span>
+         <span className="news-hero-tag">RELATED</span>
        </div>
        <div className="news-list" style={{padding:0}}>
          {related.map((a, i) => (
