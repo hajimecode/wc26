@@ -482,6 +482,9 @@
  .news-v2 .news-row:hover { background: var(--accent); color: var(--text-0); }
  .news-v2 .news-row:hover * { color: var(--text-0) !important; }
  .news-v2 .news-row-num { font-family: 'Krona One', sans-serif; font-size: 48px; letter-spacing: -0.055em; line-height: 1; color: var(--accent); }
+ .news-v2 .news-row-date { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+ .news-v2 .news-row-date-day { font-family: 'Krona One', sans-serif; font-size: 48px; letter-spacing: -0.055em; line-height: 1; color: var(--accent); }
+ .news-v2 .news-row-date-mon { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bg-0); opacity: 0.7; line-height: 1; }
  .news-v2 .news-row-content { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
  .news-v2 .news-row-meta { display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; flex-wrap: wrap; align-items: center; color: var(--bg-0); }
  .news-v2 .news-row-cat { padding: 3px 10px; border: 1px solid var(--bg-0); }
@@ -1143,6 +1146,8 @@
    .news-v2 .news-list { padding: var(--sp-section-top-sm) var(--sp-gutter-sm) var(--sp-section-bottom-sm); }
    .news-v2 .news-row { grid-template-columns: 52px 1fr; gap: 14px; padding: 26px 4px; }
    .news-v2 .news-row-num { font-size: 32px; }
+   .news-v2 .news-row-date-day { font-size: 32px; }
+   .news-v2 .news-row-date-mon { font-size: 10px; letter-spacing: 0.14em; }
    .news-v2 .news-row-title { font-size: clamp(22px, 6.5vw, 36px); }
    .news-v2 .news-row-tldr { font-size: 14px; }
    .news-v2 .news-row-arrow { grid-column: 1 / -1; text-align: right; font-size: 22px; align-self: start; }
@@ -9253,19 +9258,24 @@ function fmtArticleDate(dateStr) {
 
 function NewsCard({ article, cats, onOpen, large, index }) {
  const cat = cats[article.category] || { label: article.category || '—' };
- const monthYear = (() => {
-   if (!article.date) return '';
+ const dateInfo = (() => {
+   if (!article.date) return { day: '', mon: '', yr: '' };
    const d = new Date(article.date);
-   const mon = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()];
-   return `${mon} ${String(d.getDate()).padStart(2,'0')} · ${d.getFullYear()}`;
+   return {
+     day: String(d.getDate()).padStart(2,'0'),
+     mon: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()],
+     yr: String(d.getFullYear()).slice(-2),
+   };
  })();
  return (
  <button onClick={() => onOpen(article.slug)} className="news-row reveal-up">
-   <div className="news-row-num">{String((index ?? 0) + 1).padStart(2,'0')}</div>
+   <div className="news-row-date">
+     <div className="news-row-date-day">{dateInfo.day}</div>
+     <div className="news-row-date-mon">{dateInfo.mon} '{dateInfo.yr}</div>
+   </div>
    <div className="news-row-content">
      <div className="news-row-meta">
        <span className="news-row-cat">{cat.label}</span>
-       <span>{monthYear}</span>
        <span>{article.readMin || 3} MIN READ</span>
      </div>
      <div className="news-row-title">{article.title}</div>
