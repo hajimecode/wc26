@@ -381,8 +381,8 @@
  .hv-burger.is-open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
  /* MENU OVERLAY */
- .hv-menu-overlay { position: fixed; inset: 0; z-index: 49; background: var(--hv-ink); color: var(--hv-paper); transform: translateY(-100%); transition: transform .5s cubic-bezier(.7,0,.2,1); display: grid; grid-template-rows: auto 1fr auto; padding: 28px; }
- .hv-menu-overlay.is-open { transform: translateY(0); }
+ .hv-menu-overlay { position: fixed; inset: 0; z-index: 49; background: var(--hv-ink); color: var(--hv-paper); transform: translateY(-100%); visibility: hidden; pointer-events: none; transition: transform .5s cubic-bezier(.7,0,.2,1), visibility 0s linear .5s; display: grid; grid-template-rows: auto 1fr auto; padding: 28px; }
+ .hv-menu-overlay.is-open { transform: translateY(0); visibility: visible; pointer-events: auto; transition: transform .5s cubic-bezier(.7,0,.2,1), visibility 0s linear 0s; }
  .hv-menu-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 32px; align-items: center; padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.18); cursor: pointer; color: var(--hv-paper); transition: background .2s, color .2s, padding-left .2s; }
  .hv-menu-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.18); }
  .hv-menu-row:hover { background: var(--hv-lime); color: var(--hv-ink); padding-left: 24px; }
@@ -441,6 +441,10 @@
    .home-v2 .hv-hero-kickoff { bottom: 24px; left: var(--sp-gutter-sm); right: var(--sp-gutter-sm); }
    .home-v2 .hv-hero-grid { padding-top: 50vh; padding-bottom: 96px; }
    .home-v2 .hv-hero-grid > div:nth-child(2) { text-align: left !important; }
+   /* Mobile: hide LIME marquee bands that visually compete with navbar */
+   .home-v2 .hv-band { display: none; }
+   /* Mobile: hide redundant section 7 chapter list (already in hamburger menu) */
+   .home-v2 .hv-nav-sections { display: none; }
  }
  @media (max-width: 480px) {
    .home-v2 .hv-hero-title { font-size: clamp(60px, 17vw, 100px); }
@@ -494,6 +498,7 @@
  /* LIST — INK rows with WHITE rules */
  .news-v2 .news-list { padding: var(--sp-section-top) var(--sp-gutter) var(--sp-section-bottom); }
  .news-v2 .news-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 32px; align-items: start; padding: 36px 12px; border-bottom: 1px solid var(--bg-0); cursor: pointer; background: var(--text-0); color: var(--bg-0); transition: background .2s, color .2s; text-align: left; width: 100%; border-top: none; border-left: none; border-right: none; }
+ .news-v2 .news-row-nodate { grid-template-columns: 1fr auto; }
  .news-v2 .news-row:hover { background: var(--accent); color: var(--text-0); }
  .news-v2 .news-row:hover * { color: var(--text-0) !important; }
  .news-v2 .news-row-num { font-family: 'Krona One', sans-serif; font-size: 48px; letter-spacing: -0.055em; line-height: 1; color: var(--accent); }
@@ -1160,6 +1165,7 @@
    .news-v2 .news-filter { padding: var(--sp-section-divider) var(--sp-gutter-sm); }
    .news-v2 .news-list { padding: var(--sp-section-top-sm) var(--sp-gutter-sm) var(--sp-section-bottom-sm); }
    .news-v2 .news-row { grid-template-columns: 52px 1fr; gap: 14px; padding: 26px 4px; }
+   .news-v2 .news-row-nodate { grid-template-columns: 1fr; gap: 8px; }
    .news-v2 .news-row-num { font-size: 32px; }
    .news-v2 .news-row-date-day { font-size: 32px; }
    .news-v2 .news-row-date-mon { font-size: 10px; letter-spacing: 0.14em; }
@@ -9273,24 +9279,18 @@ function fmtArticleDate(dateStr) {
 
 function NewsCard({ article, cats, onOpen, large, index }) {
  const cat = cats[article.category] || { label: article.category || '—' };
- const dateInfo = (() => {
-   if (!article.date) return { day: '', mon: '', yr: '' };
+ const monthDay = (() => {
+   if (!article.date) return '';
    const d = new Date(article.date);
-   return {
-     day: String(d.getDate()).padStart(2,'0'),
-     mon: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()],
-     yr: String(d.getFullYear()).slice(-2),
-   };
+   const mon = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()];
+   return `${mon} ${String(d.getDate()).padStart(2,'0')}`;
  })();
  return (
- <button onClick={() => onOpen(article.slug)} className="news-row reveal-up">
-   <div className="news-row-date">
-     <div className="news-row-date-day">{dateInfo.day}</div>
-     <div className="news-row-date-mon">{dateInfo.mon} '{dateInfo.yr}</div>
-   </div>
+ <button onClick={() => onOpen(article.slug)} className="news-row news-row-nodate reveal-up">
    <div className="news-row-content">
      <div className="news-row-meta">
        <span className="news-row-cat">{cat.label}</span>
+       <span>{monthDay}</span>
        <span>{article.readMin || 3} MIN READ</span>
      </div>
      <div className="news-row-title">{article.title}</div>
