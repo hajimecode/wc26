@@ -383,7 +383,7 @@
  /* MENU OVERLAY */
  .hv-menu-overlay { position: fixed; inset: 0; z-index: 49; background: var(--hv-ink); color: var(--hv-paper); transform: translateY(-100%); visibility: hidden; pointer-events: none; transition: transform .5s cubic-bezier(.7,0,.2,1), visibility 0s linear .5s; display: grid; grid-template-rows: auto 1fr auto; padding: 28px; }
  .hv-menu-overlay.is-open { transform: translateY(0); visibility: visible; pointer-events: auto; transition: transform .5s cubic-bezier(.7,0,.2,1), visibility 0s linear 0s; }
- .hv-menu-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 32px; align-items: center; padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.18); cursor: pointer; color: var(--hv-paper); transition: background .2s, color .2s, padding-left .2s; }
+ .hv-menu-row { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.18); cursor: pointer; color: var(--hv-paper); transition: background .2s, color .2s, padding-left .2s; }
  .hv-menu-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.18); }
  .hv-menu-row:hover { background: var(--hv-lime); color: var(--hv-ink); padding-left: 24px; }
  .hv-menu-num { font-size: 48px; line-height: 1; }
@@ -396,8 +396,7 @@
    .hv-burger { width: 48px; height: 48px; }
    .hv-burger span { width: 24px; }
    .hv-menu-overlay { padding: 14px 18px; }
-   .hv-menu-row { padding: 12px 0; gap: 12px; grid-template-columns: 40px 1fr auto; }
-   .hv-menu-num { font-size: 22px; }
+   .hv-menu-row { padding: 12px 0; gap: 12px; grid-template-columns: 1fr auto; }
    .hv-menu-label { font-size: clamp(22px, 7vw, 36px); }
    .hv-menu-num { font-size: 36px; }
    .hv-menu-label { font-size: clamp(28px, 9vw, 56px); }
@@ -4121,15 +4120,14 @@ function Header({ view, setView }) {
      <div style={{height:'72px'}}></div>
      <div style={{display:'grid',alignContent:'center',padding:'12px 0'}}>
        {[
-         {n:'00', l:'HOME',     go:'home'},
-         {n:'01', l:'NEWS',     go:'news'},
-         {n:'02', l:'SCHEDULE', go:'schedule'},
-         {n:'03', l:'PREDICT',  go:'predict'},
-         {n:'04', l:'TEAMS',    go:'teams'},
-         {n:'05', l:'ANALYSIS', go:'analysis'},
+         {l:'HOME',     go:'home'},
+         {l:'NEWS',     go:'news'},
+         {l:'SCHEDULE', go:'schedule'},
+         {l:'TEAMS',    go:'teams'},
+         {l:'PREDICT',  go:'predict'},
+         {l:'ANALYSIS', go:'analysis'},
        ].map(it => (
          <div key={it.go} className="hv-menu-row" onClick={() => navTo(it.go)}>
-           <div className="krona hv-menu-num" style={{fontFamily:"'Krona One',sans-serif",letterSpacing:'-0.055em'}}>{it.n}</div>
            <div className="krona hv-menu-label" style={{fontFamily:"'Krona One',sans-serif",letterSpacing:'-0.055em',textTransform:'uppercase'}}>{it.l}</div>
            <div style={{fontFamily:"'Krona One',sans-serif",fontSize:'24px'}}>→</div>
          </div>
@@ -4494,8 +4492,8 @@ function HomeView({ setView, news }) {
      {[
        {n:'01', l:'NEWS',     go:'news'},
        {n:'02', l:'SCHEDULE', go:'schedule'},
-       {n:'03', l:'PREDICT',  go:'predict'},
-       {n:'04', l:'TEAMS',    go:'teams'},
+       {n:'03', l:'TEAMS',    go:'teams'},
+       {n:'04', l:'PREDICT',  go:'predict'},
        {n:'05', l:'ANALYSIS', go:'analysis'},
      ].map((it,i) => (
        <div key={it.go} className={`hv-row hv-reveal-up hv-stagger-${(i%4)+1}`} onClick={() => setView({ name: it.go })}>
@@ -4625,7 +4623,7 @@ function TeamsListView({ setView, query }) {
      <div className="teams-hero-inner">
        <div className="teams-hero-top">
          <div className="reveal-left">
-           <div className="teams-hero-tag">§04 · NATIONS / {TEAMS.length} TEAMS</div>
+           <div className="teams-hero-tag">§03 · NATIONS / {TEAMS.length} TEAMS</div>
            <div className="teams-hero-title">NAT<br/>IONS.</div>
          </div>
          <div className="teams-hero-meta reveal-right">
@@ -4753,7 +4751,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
        <div>
          <button onClick={() => setView({ name: 'teams' })} className="team-back reveal-left">← ALL NATIONS</button>
          <div className="team-hero-tags reveal-up">
-           <span className="team-hero-tag">§04 · NATIONS</span>
+           <span className="team-hero-tag">§03 · NATIONS</span>
            <span className="team-hero-tag">{team.conf}</span>
            <span className="team-hero-tag">GROUP {team.group} · {team.pos}</span>
            <span className="team-hero-tag">RANK #{team.rank}</span>
@@ -4800,7 +4798,7 @@ function TeamView({ team, setView, setSelectedPlayer }) {
      <div className="team-body-shell">
        {/* Section opener — giant LIME tab label */}
        <div className="team-tab-opener" key={tab}>
-         <div className="team-tab-opener-tag">§ {tab === 'overview' ? '04.01' : tab === 'tactics' ? '04.02' : '04.03'} · {team.code}</div>
+         <div className="team-tab-opener-tag">§ {tab === 'overview' ? '03.01' : tab === 'tactics' ? '03.02' : '03.03'} · {team.code}</div>
          <div className="team-tab-opener-title">{tab === 'overview' ? 'OVERVIEW' : tab === 'tactics' ? 'TACTICS' : 'SQUAD'}.</div>
          <div className="team-tab-opener-meta">
            {tab === 'overview' && 'STYLE · STRENGTHS · WEAKNESSES · KEY PLAYERS'}
@@ -7621,7 +7619,7 @@ function PredictionView({ setSelectedPlayer, initialCodeA, initialCodeB }) {
      <div className="predict-hero-inner">
        <div className="predict-hero-top">
          <div className="reveal-left">
-           <div className="predict-hero-tag">§03 · MODEL · 90-MIN POISSON</div>
+           <div className="predict-hero-tag">§04 · MODEL · 90-MIN POISSON</div>
            <div className="predict-hero-title">PRE<br/>DICT.</div>
          </div>
          <div className="predict-hero-meta reveal-right">
