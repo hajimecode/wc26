@@ -761,7 +761,7 @@
  .teams-v2 .teams-group-title { font-family: 'Krona One', sans-serif; font-size: 32px; letter-spacing: -0.05em; color: var(--accent); line-height: 1; }
  .teams-v2 .teams-group-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bg-0); opacity: 0.6; }
  .teams-v2 .teams-group-table-wrap { overflow-x: auto; }
- .teams-v2 .teams-group-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; }
+ .teams-v2 .teams-group-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; table-layout: auto; }
  .teams-v2 .teams-group-table thead th { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 12px 6px; color: var(--bg-0); opacity: 0.55; border-bottom: 1px solid rgba(255,255,255,0.18); text-align: center; }
  .teams-v2 .teams-group-table thead .th-team { text-align: left; padding-left: 14px; }
  .teams-v2 .teams-group-table thead .th-pos { width: 32px; padding-left: 12px; text-align: left; }
@@ -785,10 +785,28 @@
    .teams-v2 .teams-group:first-child { margin-top: 0; }
    .teams-v2 .teams-group-head { padding: 14px var(--sp-gutter-sm); }
    .teams-v2 .teams-group-title { font-size: 24px; }
-   .teams-v2 .teams-group-row .td-pos { font-size: 15px; padding-left: var(--sp-gutter-sm); }
-   .teams-v2 .teams-group-row .td-team { font-size: 12px; gap: 8px; padding-left: 10px; }
+   /* Fixed layout + explicit widths to prevent any column overflow */
+   .teams-v2 .teams-group-table-wrap { overflow-x: visible; }
+   .teams-v2 .teams-group-table { table-layout: fixed; }
+   /* Hide P (Played) column on mobile — it's redundant (= W+D+L) */
+   .teams-v2 .teams-group-table thead th:nth-child(3),
+   .teams-v2 .teams-group-row td:nth-child(3) { display: none; }
+   /* Column widths (sum = 100%) */
+   .teams-v2 .teams-group-table thead .th-pos,
+   .teams-v2 .teams-group-row .td-pos { width: 32px; }
+   .teams-v2 .teams-group-table thead .th-team,
+   .teams-v2 .teams-group-row .td-team { width: auto; }
+   .teams-v2 .teams-group-table thead .th-stat,
+   .teams-v2 .teams-group-row .td-stat { width: 28px; }
+   .teams-v2 .teams-group-table thead .th-pts,
+   .teams-v2 .teams-group-row .td-pts { width: 48px; }
+   /* Cell padding (mobile) */
+   .teams-v2 .teams-group-table thead th { padding: 10px 2px; font-size: 9px; letter-spacing: 0.08em; }
+   .teams-v2 .teams-group-row td { padding: 10px 2px; font-size: 11px; }
+   .teams-v2 .teams-group-row .td-pos { font-size: 15px; padding-left: var(--sp-gutter-sm); width: 36px; }
+   .teams-v2 .teams-group-row .td-team { font-size: 11px; gap: 6px; padding-left: 8px; padding-right: 4px; min-width: 0; }
+   .teams-v2 .teams-group-row .td-team .td-team-name { font-size: 11px; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
    .teams-v2 .teams-group-row .td-pts { font-size: 16px; padding-right: var(--sp-gutter-sm); }
-   .teams-v2 .teams-group-row td { padding: 10px 4px; font-size: 11px; }
  }
 
  /* REVEAL ANIMATIONS */
